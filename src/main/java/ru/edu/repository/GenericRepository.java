@@ -10,7 +10,7 @@ public interface GenericRepository <T,ID> {
 
     void delete(ID id) throws Exception;
 
-    void update(ID id) throws Exception;
+    void update(T id) throws Exception;
 
     void save(ID id);
 

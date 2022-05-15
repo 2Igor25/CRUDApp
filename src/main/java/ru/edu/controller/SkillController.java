@@ -56,7 +56,7 @@ public class SkillController {
             System.out.println("Введите описание");
             skill.setDescriptionSkill(sc.next());
 
-            skillRep.update(skill.getId());
+            skillRep.update(skill);
             System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
         }
         catch (Exception e)

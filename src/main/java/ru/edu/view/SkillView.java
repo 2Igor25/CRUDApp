@@ -14,7 +14,8 @@ public class SkillView {
     SkillController skillController;
     Scanner sc;
 
-    private final String menu = "Выберете действие:\n" +
+    private final String menu = "Скилы:\n"+
+            "Выберете действие:\n" +
             " 1. Создать\n" +
             " 2. Редактировать\n" +
             " 3. Удалить\n" +

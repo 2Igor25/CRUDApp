@@ -28,7 +28,7 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
     }
 
     @Override
-    public void update(Long id) throws Exception {
+    public void update(Developer developer) throws Exception {
 
     }
 

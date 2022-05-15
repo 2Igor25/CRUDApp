@@ -33,22 +33,25 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public void delete(Long id) throws Exception {
-
-        String json = skills.toString();
-        Type targetClassType = new TypeToken<ArrayList<Skill>>() { }.getType();
-        List<Skill> list = new Gson().fromJson(json, targetClassType);
-
-        for (Skill skill: list) {
-            if(skill.getId() == id) {
-                list.remove(skill);
-                skills = Collections.singletonList(gson.toJson(list));
+        for (String skill: skills) {
+            Skill skillById = new Gson().fromJson(skill, Skill.class);
+            if(skillById.getId() == id) {
+                skills.remove(skill);
+                break;
             }
         }
     }
 
     @Override
-    public void update(Long id) throws Exception {
-
+    public void update(Skill updateSkill) throws Exception {
+        for (String skill: skills) {
+            Skill skillById = new Gson().fromJson(skill, Skill.class);
+            if(skillById.getId() == updateSkill.getId()) {
+                skills.remove(skill);
+                skills.add(gson.toJson(updateSkill));
+                break;
+            }
+        }
     }
 
     @Override
@@ -58,7 +61,6 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public List<Skill> getAll() throws Exception {
-
         String json = skills.toString();
         Type targetClassType = new TypeToken<ArrayList<Skill>>() { }.getType();
         List<Skill> list = new Gson().fromJson(json, targetClassType);
