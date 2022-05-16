@@ -85,10 +85,15 @@ public class SkillView {
     }
 
     public void edit() {
-        System.out.println();
-        System.out.println(editMenu);
+
         try {
-            skillController.update(sc.nextLong(), sc);
+            if(skillController.getAll().isEmpty()) {
+                System.out.println("Список скилов пуст");
+            } else {
+                System.out.println();
+                System.out.println(editMenu);
+                skillController.update(sc.nextLong(), sc);
+            }
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
         }
@@ -96,11 +101,15 @@ public class SkillView {
 
     public void delete()
     {
-        System.out.println(deleteMenu);
-        Long id = sc.nextLong();
         try {
-            skillController.delete(id);
-            System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+            if(skillController.getAll().isEmpty()) {
+                System.out.println("Список скилов пуст");
+            } else {
+                System.out.println(deleteMenu);
+                Long id = sc.nextLong();
+                skillController.delete(id);
+                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+            }
         }
         catch (Exception e)
         {

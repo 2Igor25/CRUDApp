@@ -20,7 +20,7 @@ public class SpecialtyView {
             " 1. Создать\n" +
             " 2. Редактировать\n" +
             " 3. Удалить\n" +
-            " 4. Вывести список скилов\n" +
+            " 4. Вывести список специальностей\n" +
             " 5. Выход";
 
     private final String printMenu = "Список специальностей:\n" +
@@ -84,10 +84,15 @@ public class SpecialtyView {
     }
 
     public void edit() {
-        System.out.println();
-        System.out.println(editMenu);
+
         try {
-            specialtyController.update(sc.nextLong(), sc);
+            if (specialtyController.getAll().isEmpty()) {
+                System.out.println("Список специальностей пуст");
+            } else {
+                System.out.println();
+                System.out.println(editMenu);
+                specialtyController.update(sc.nextLong(), sc);
+            }
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
         }
@@ -95,11 +100,17 @@ public class SpecialtyView {
 
     public void delete()
     {
-        System.out.println(deleteMenu);
-        Long id = sc.nextLong();
+
         try {
-            specialtyController.delete(id);
-            System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+            if (specialtyController.getAll().isEmpty()) {
+                System.out.println("Список специальностей пуст");
+            } else {
+                System.out.println(deleteMenu);
+                Long id = sc.nextLong();
+                specialtyController.delete(id);
+                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+            }
+
         }
         catch (Exception e)
         {

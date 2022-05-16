@@ -47,29 +47,27 @@ public class SkillController {
 
     public void update(Long id, Scanner sc) throws Exception {
 
-        try {
-            Skill skill = skillRep.getById(id);
+            try {
+                Skill skill = skillRep.getById(id);
 
-            System.out.println("Введите название скила");
-            skill.setName(sc.next());
+                System.out.println("Введите название скила");
+                skill.setName(sc.next());
 
-            System.out.println("Введите описание");
-            skill.setDescriptionSkill(sc.next());
+                System.out.println("Введите описание");
+                skill.setDescriptionSkill(sc.next());
 
-            skillRep.update(skill);
-            System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println(Message.ERROR.getMessage());
-        }
+                skillRep.update(skill);
+                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println(Message.ERROR.getMessage());
+            }
 
-        System.out.println();
+            System.out.println();
+
     }
 
     public void delete(Long id) throws Exception {
-
-        skillRep.delete(id);
+            skillRep.delete(id);
     }
 }
