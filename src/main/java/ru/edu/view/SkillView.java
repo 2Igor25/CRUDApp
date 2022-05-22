@@ -4,6 +4,7 @@ import ru.edu.controller.SkillController;
 import ru.edu.model.Message;
 import ru.edu.model.Skill;
 
+import java.sql.SQLOutput;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.Scanner;
 
 public class SkillView {
 
-    SkillController skillController;
-    Scanner sc;
+    private final SkillController skillController = new SkillController();
+    private final Scanner sc = new Scanner(System.in);
 
     private final String menu = "Скилы:\n"+
             "Выберете действие:\n" +
@@ -32,11 +33,6 @@ public class SkillView {
     private final String deleteMenu = "Удаление\n" +
             Message.ID.getMessage();
 
-
-    public SkillView (SkillController skillController, Scanner sc) {
-        this.skillController = skillController;
-        this.sc = sc;
-    }
 
     public void show () {
 
@@ -77,8 +73,21 @@ public class SkillView {
 
     public void create() {
         System.out.println();
+        String name;
+        String description;
+
         try {
-            skillController.create(sc);
+            System.out.println("Введите названия скила");
+            name = sc.next();
+
+            System.out.println("Ведите описание");
+            description = sc.next();
+
+            Skill newSkill = skillController.create(name, description);
+            System.out.println(Message.SUCCESSFUL_OPERATION);
+            System.out.println("Добавлен скил\n"
+                    + newSkill.toString());
+
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
         }
@@ -86,16 +95,42 @@ public class SkillView {
 
     public void edit() {
 
+        Long id;
+        Skill newSkill = new Skill();
+
         try {
             if(skillController.getAll().isEmpty()) {
                 System.out.println("Список скилов пуст");
             } else {
+                print();
+
                 System.out.println();
                 System.out.println(editMenu);
-                skillController.update(sc.nextLong(), sc);
+                id = sc.nextLong();
+
+                if (skillController.getById(id)!=null) {
+                    System.out.println("Скилл на редактирование:\n"
+                            + skillController.getById(id));
+
+                    newSkill.setId(id);
+                } else {
+                    throw new Exception("Скилл с таким ID не найден");
+                }
+
+
+                System.out.println("Введите новое название скила: ");
+                newSkill.setName(sc.next());
+
+                System.out.println("Введите новое описание: ");
+                newSkill.setDescriptionSkill(sc.next());
+
+                Skill printSkill = skillController.update(newSkill);
+                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+                System.out.println(printSkill.toString());
             }
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

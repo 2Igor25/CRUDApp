@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Developer {
 
-    private long id;
+    private Long id;
 
     private String firstName;
 
@@ -14,11 +14,11 @@ public class Developer {
 
     Specialty specialty;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,6 +40,10 @@ public class Developer {
 
     public List<Skill> getSkills() {
         return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
     }
 
     public void addSkills(Skill skill) {

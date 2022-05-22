@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class SpecialtyView {
 
-    SpecialtyController specialtyController;
-    Scanner sc;
+    SpecialtyController specialtyController = new SpecialtyController();
+    Scanner sc = new Scanner(System.in);
 
     private final String menu = "Специальность:\n"+
             "Выберете действие:\n" +
@@ -31,11 +31,6 @@ public class SpecialtyView {
 
     private final String deleteMenu = "Удаление\n" +
             Message.ID.getMessage();
-
-    public SpecialtyView(SpecialtyController specialtyController, Scanner sc) {
-        this.specialtyController = specialtyController;
-        this.sc = sc;
-    }
 
     public void show () {
 
@@ -76,8 +71,21 @@ public class SpecialtyView {
 
     public void create() {
         System.out.println();
+        String name;
+        String description;
+
         try {
-            specialtyController.create(sc);
+            System.out.println("Введите названия специальности");
+            name = sc.next();
+
+            System.out.println("Ведите описание");
+            description = sc.next();
+
+            Specialty newSpecialty  = specialtyController.create(name, description);
+            System.out.println(Message.SUCCESSFUL_OPERATION);
+            System.out.println("Добавлена специальность\n"
+                    + newSpecialty.toString());
+
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
         }
@@ -85,16 +93,42 @@ public class SpecialtyView {
 
     public void edit() {
 
+        Long id;
+        Specialty newSpecialty = new Specialty();
+
         try {
-            if (specialtyController.getAll().isEmpty()) {
+            if(specialtyController.getAll().isEmpty()) {
                 System.out.println("Список специальностей пуст");
             } else {
+                print();
+
                 System.out.println();
                 System.out.println(editMenu);
-                specialtyController.update(sc.nextLong(), sc);
+                id = sc.nextLong();
+
+                if (specialtyController.getById(id)!=null) {
+                    System.out.println("Специальность на редактирование:\n"
+                            + specialtyController.getById(id));
+
+                    newSpecialty.setId(id);
+                } else {
+                    throw new Exception("Специальность с таким ID не найдена");
+                }
+
+
+                System.out.println("Введите новое название специальности: ");
+                newSpecialty.setName(sc.next());
+
+                System.out.println("Введите новое описание: ");
+                newSpecialty.setDescriptionSpecialty(sc.next());
+
+                Specialty printSpec = specialtyController.update(newSpecialty);
+                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
+                System.out.println(printSpec.toString());
             }
         } catch (Exception e) {
             System.out.println(Message.ERROR_INPUT.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

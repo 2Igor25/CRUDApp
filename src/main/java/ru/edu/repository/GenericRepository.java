@@ -4,16 +4,14 @@ import java.util.List;
 
 public interface GenericRepository <T,ID> {
 
-    T getById(ID id) throws Exception;
+    T getById(ID id);
 
-    void add(T item) throws Exception;
+    T add(T item);
 
-    void delete(ID id) throws Exception;
+    void delete(ID id);
 
-    void update(T id) throws Exception;
+    T update(T id);
 
-    void save(ID id);
-
-    List<T> getAll() throws Exception;
+    List<T> getAll();
 
 }

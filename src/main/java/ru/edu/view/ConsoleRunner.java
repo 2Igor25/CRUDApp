@@ -5,9 +5,9 @@ import ru.edu.controller.DeveloperController;
 import ru.edu.controller.SkillController;
 import ru.edu.controller.SpecialtyController;
 import ru.edu.model.Message;
-import ru.edu.repository.Impl.GsonDeveloperRepositoryImpl;
-import ru.edu.repository.Impl.GsonSkillRepositoryImpl;
-import ru.edu.repository.Impl.GsonSpecialtyRepositoryImpl;
+import ru.edu.repository.impl.GsonDeveloperRepositoryImpl;
+import ru.edu.repository.impl.GsonSkillRepositoryImpl;
+import ru.edu.repository.impl.GsonSpecialtyRepositoryImpl;
 
 import java.util.Scanner;
 
@@ -22,17 +22,13 @@ public class ConsoleRunner {
 
     private Scanner cons = new Scanner(System.in);
 
-    GsonSkillRepositoryImpl skillRep = new GsonSkillRepositoryImpl();
-    SkillController skillController = new SkillController(skillRep);
-    SkillView skillView = new SkillView(skillController, cons);
+    SkillView skillView = new SkillView();
 
-    GsonSpecialtyRepositoryImpl specialtyRep = new GsonSpecialtyRepositoryImpl();
-    SpecialtyController specialtyController = new SpecialtyController(specialtyRep);
-    SpecialtyView specialtyView = new SpecialtyView(specialtyController, cons);
+    SpecialtyView specialtyView = new SpecialtyView();
+    SpecialtyController specialtyContr = new SpecialtyController();
+    SkillController skillContr = new SkillController();
 
-    GsonDeveloperRepositoryImpl developerRep = new GsonDeveloperRepositoryImpl();
-    DeveloperController developerController = new DeveloperController(developerRep, specialtyRep);
-    DeveloperView developerView = new DeveloperView(developerController, cons);
+    DeveloperView developerView = new DeveloperView(specialtyView, specialtyContr, skillContr);
 
 
     public void start()  {
@@ -64,9 +60,6 @@ public class ConsoleRunner {
             if (isExit)
                 break;
         }
-
-
-
 
     }
 }

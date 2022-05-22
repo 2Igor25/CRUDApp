@@ -1,77 +1,40 @@
 package ru.edu.controller;
 
 import ru.edu.model.Message;
-import ru.edu.model.Skill;
 import ru.edu.model.Specialty;
-import ru.edu.repository.Impl.GsonSkillRepositoryImpl;
-import ru.edu.repository.Impl.GsonSpecialtyRepositoryImpl;
+import ru.edu.repository.SpecialtyRepository;
+import ru.edu.repository.impl.GsonSpecialtyRepositoryImpl;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class SpecialtyController {
 
-    private GsonSpecialtyRepositoryImpl specialtyRep;
+    private SpecialtyRepository specialtyRep = new GsonSpecialtyRepositoryImpl();
 
-    public SpecialtyController(GsonSpecialtyRepositoryImpl specialtyRep) {
-        this.specialtyRep = specialtyRep;
-    }
-
-    public List<Specialty> getAll() throws Exception {
+   public List<Specialty> getAll() {
 
         return specialtyRep.getAll();
     }
 
-    public void create(Scanner sc) throws Exception {
+    public Specialty getById(Long id) {
+        return  specialtyRep.getById(id);
+    }
+
+    public Specialty create(String name, String description) {
 
         Specialty specialty = new Specialty();
+        specialty.setName(name);
+        specialty.setDescriptionSpecialty(description);
 
-        try {
-            System.out.println("Введите id");
-            specialty.setId(sc.nextLong());
-
-            System.out.println("Введите название специальности");
-            specialty.setName(sc.next());
-
-            System.out.println("Введите описание");
-            specialty.setDescriptionSpecialty(sc.next());
-
-            specialtyRep.add(specialty);
-            System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println(Message.ERROR.getMessage());
-        }
-        System.out.println();
+        return specialtyRep.add(specialty);
     }
 
-    public void update(Long id, Scanner sc) throws Exception {
-
-            try {
-
-                Specialty specialty = specialtyRep.getById(id);
-
-                System.out.println("Введите название специальности");
-                specialty.setName(sc.next());
-
-                System.out.println("Введите описание");
-                specialty.setDescriptionSpecialty(sc.next());
-
-                specialtyRep.update(specialty);
-                System.out.println(Message.SUCCESSFUL_OPERATION.getMessage());
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println(Message.ERROR.getMessage());
-            }
-
-            System.out.println();
+    public Specialty update(Specialty newSpecialty) {
+            return specialtyRep.update(newSpecialty);
     }
 
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
             specialtyRep.delete(id);
     }
 }
