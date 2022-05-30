@@ -26,11 +26,13 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
    }
 
    private void writeSkillsToFile (List<Skill> skills) {
-       try {
-           Files.writeString(skillsFilePath, GSON.toJson(skills));
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
+           skills.stream().forEach(s-> {
+               try {
+                   Files.writeString(skillsFilePath, GSON.toJson(s));
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           });
    }
 
    private Long generateNewMaxId(List<Skill> skills) {
