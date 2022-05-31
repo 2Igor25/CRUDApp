@@ -1,10 +1,12 @@
 package ru.edu.repository.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import ru.edu.model.Skill;
 import ru.edu.repository.SkillRepository;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -15,14 +17,13 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
    private final Gson GSON = new Gson();
 
    private List<Skill> getAllSkills () {
-
-       List<Skill> skills = new ArrayList<>();
        try {
-           Files.readAllLines(skillsFilePath).stream().forEach(skill -> skills.add(GSON.fromJson(skill, Skill.class)));
+           Type targetClassType = new TypeToken<ArrayList<Skill>>() { }.getType();
+           return GSON.fromJson(Files.readString(skillsFilePath), targetClassType);
        } catch (IOException e) {
            e.printStackTrace();
        }
-       return skills;
+       return Collections.emptyList();
    }
 
    private void writeSkillsToFile (List<Skill> skills) {
